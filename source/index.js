@@ -5,7 +5,7 @@ const {existsSync, lstatSync} = require('fs')
 const PACKAGE_JSON = 'package.json'
 
 const ESLINT_FILES =
-  '.eslintrc .eslintrc.json .eslintrc.yaml .eslintrc.yml .eslintrc.js'
+  '.eslintrc.js .eslintrc.json .eslintrc .eslintrc.yaml .eslintrc.yml'
     .split(' ')
 
 const ESLINT_NODE = 'eslintConfig'
@@ -20,7 +20,7 @@ module.exports = function detectEslintConfig (file) {
 
   const packageJson = resolve(directory, PACKAGE_JSON)
 
-  const eslintFileDetected = ESLINT_FILES.some(eslintFile =>
+  const eslintFileDetected = !!ESLINT_FILES.find(eslintFile =>
     existsSync(resolve(directory, eslintFile))
   )
 

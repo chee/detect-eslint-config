@@ -9,7 +9,7 @@ var lstatSync = ref$1.lstatSync;
 var PACKAGE_JSON = 'package.json'
 
 var ESLINT_FILES =
-  '.eslintrc .eslintrc.json .eslintrc.yaml .eslintrc.yml .eslintrc.js'
+  '.eslintrc.js .eslintrc.json .eslintrc .eslintrc.yaml .eslintrc.yml'
     .split(' ')
 
 var ESLINT_NODE = 'eslintConfig'
@@ -24,7 +24,7 @@ module.exports = function detectEslintConfig (file) {
 
   var packageJson = resolve(directory, PACKAGE_JSON)
 
-  var eslintFileDetected = ESLINT_FILES.some(function (eslintFile) { return existsSync(resolve(directory, eslintFile)); }
+  var eslintFileDetected = !!ESLINT_FILES.find(function (eslintFile) { return existsSync(resolve(directory, eslintFile)); }
   )
 
   if (existsSync(packageJson)) {
