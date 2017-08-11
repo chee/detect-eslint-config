@@ -2,7 +2,7 @@ const it = require('tape')
 const detectConfig = require('../dist')
 
 it('correctly detects eslint config in a package.json', tape => {
-  const hasConfig = detectConfig(`${__dirname}/package.json/beak.js`)
+  const hasConfig = detectConfig(`${__dirname}/packagejson/beak.js`)
   tape.plan(1)
   tape.equal(hasConfig, true)
   tape.end()
@@ -17,7 +17,7 @@ it('correctly detects eslint config in a project root', tape => {
 
 it('correctly detects eslint config in a subdirectory', tape => {
   const hasConfig =
-    detectConfig(`${__dirname}/subdirectory/help-me/charlie/index/.js`)
+    detectConfig(`${__dirname}/subdirectory/help-me/charlie/index.js`)
   tape.plan(1)
   tape.equal(hasConfig, true)
   tape.end()
