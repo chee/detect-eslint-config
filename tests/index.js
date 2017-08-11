@@ -1,5 +1,5 @@
-var it = require('tape')
-var detectConfig = require('../dist')
+const it = require('tape')
+const detectConfig = require('../dist')
 
 it('correctly detects eslint config in a package.json', tape => {
   const hasConfig = detectConfig(`${__dirname}/package.json/beak.js`)
@@ -27,5 +27,12 @@ it('returns false if no eslint config is detected', tape => {
   const hasConfig = detectConfig(`${__dirname}/none/pineapples.js`)
   tape.plan(1)
   tape.equal(hasConfig, false)
+  tape.end()
+})
+
+it('works if you specify a directory', tape => {
+  const hasConfig = detectConfig(`${__dirname}/root/`)
+  tape.plan(1)
+  tape.equal(hasConfig, true)
   tape.end()
 })
