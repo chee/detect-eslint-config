@@ -1,0 +1,32 @@
+{
+  "name": "detect-eslint-config",
+  "version": "0.5.5",
+  "description": "detect if a file is in a project that configure eslint",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npm run me",
+    "me": "npm run up",
+    "up": "npm run buttercup",
+    "buttercup": "buble source -o dist",
+    "test": "node tests/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chee/uses-eslint.git"
+  },
+  "keywords": [
+    "eslint",
+    "detector"
+  ],
+  "author": "chee <chee@snake.dog> (https://snake.dog/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chee/uses-eslint/issues"
+  },
+  "homepage": "https://github.com/chee/uses-eslint#readme",
+  "devDependencies": {
+    "buble": "^0.15.2",
+    "tape": "^4.8.0"
+  },
+  "dependencies": {}
+}
