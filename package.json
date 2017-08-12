@@ -26,6 +26,7 @@
   "homepage": "https://github.com/chee/uses-eslint#readme",
   "devDependencies": {
     "buble": "^0.15.2",
+    "standard": "^10.0.3",
     "tape": "^4.8.0"
   },
   "dependencies": {}
