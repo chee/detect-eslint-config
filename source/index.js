@@ -1,6 +1,6 @@
-const {dirname, resolve} = require('path')
+const path = require('path')
 
-const {existsSync, lstatSync} = require('fs')
+const {existsSync, statSync} = require('fs')
 
 const PACKAGE_JSON = 'package.json'
 
@@ -10,23 +10,29 @@ const ESLINT_FILES =
 
 const ESLINT_NODE = 'eslintConfig'
 
-const isDirectory = file => lstatSync(file).isDirectory()
-const isRoot = directory => directory === resolve(directory, '..')
+const isDirectory = file => statSync(file).isDirectory()
+const isRoot = directory => directory === path.resolve(directory, '..')
+const createResolver = directory => file => path.resolve(directory, file)
+const {dirname} = path
 
 module.exports = function detectEslintConfig (file) {
   const directory = isDirectory(file) ? file : dirname(file)
 
-  if (isRoot(directory)) return false
+  const resolve = createResolver(directory)
 
-  const packageJson = resolve(directory, PACKAGE_JSON)
+  if (isRoot(directory)) return null
 
-  const eslintFileDetected = !!ESLINT_FILES.find(eslintFile =>
-    existsSync(resolve(directory, eslintFile))
+  const packageJson = resolve(PACKAGE_JSON)
+
+  const detectedFile = ESLINT_FILES.find(eslintFile =>
+    existsSync(resolve(eslintFile))
   )
 
   if (existsSync(packageJson)) {
-    return eslintFileDetected || !!require(packageJson)[ESLINT_NODE]
+    return (detectedFile && resolve(detectedFile)) ||
+      (require(packageJson)[ESLINT_NODE] && packageJson)
   }
 
-  return eslintFileDetected || detectEslintConfig(resolve(directory, '..'))
+  return (detectedFile && resolve(detectedFile)) ||
+    detectEslintConfig(resolve('..'))
 }

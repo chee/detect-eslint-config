@@ -11,7 +11,7 @@ use like:
 ```js
 import detectEslintConfig from 'detect-eslint-config'
 
-const hasEslintConfig = detectEslintConfig('dog/face')
+const hasEslintConfig = !!detectEslintConfig('dog/face')
 
 if (hasEslintConfig) {
   console.log('we have found an eslint config for this project')

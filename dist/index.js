@@ -1,10 +1,8 @@
-var ref = require('path');
-var dirname = ref.dirname;
-var resolve = ref.resolve;
+var path = require('path')
 
-var ref$1 = require('fs');
-var existsSync = ref$1.existsSync;
-var lstatSync = ref$1.lstatSync;
+var ref = require('fs');
+var existsSync = ref.existsSync;
+var statSync = ref.statSync;
 
 var PACKAGE_JSON = 'package.json'
 
@@ -14,22 +12,28 @@ var ESLINT_FILES =
 
 var ESLINT_NODE = 'eslintConfig'
 
-var isDirectory = function (file) { return lstatSync(file).isDirectory(); }
-var isRoot = function (directory) { return directory === resolve(directory, '..'); }
+var isDirectory = function (file) { return statSync(file).isDirectory(); }
+var isRoot = function (directory) { return directory === path.resolve(directory, '..'); }
+var createResolver = function (directory) { return function (file) { return path.resolve(directory, file); }; }
+var dirname = path.dirname;
 
 module.exports = function detectEslintConfig (file) {
   var directory = isDirectory(file) ? file : dirname(file)
 
+  var resolve = createResolver(directory)
+
   if (isRoot(directory)) { return false }
 
-  var packageJson = resolve(directory, PACKAGE_JSON)
+  var packageJson = resolve(PACKAGE_JSON)
 
-  var eslintFileDetected = !!ESLINT_FILES.find(function (eslintFile) { return existsSync(resolve(directory, eslintFile)); }
+  var detectedFile = ESLINT_FILES.find(function (eslintFile) { return existsSync(resolve(eslintFile)); }
   )
 
   if (existsSync(packageJson)) {
-    return eslintFileDetected || !!require(packageJson)[ESLINT_NODE]
+    return (detectedFile && resolve(detectedFile)) ||
+      (require(packageJson)[ESLINT_NODE] && packageJson)
   }
 
-  return eslintFileDetected || detectEslintConfig(resolve(directory, '..'))
+  return (detectedFile && resolve(detectedFile)) ||
+    detectEslintConfig(resolve('..'))
 }
