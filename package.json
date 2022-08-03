@@ -18,7 +18,7 @@
     "eslint",
     "detector"
   ],
-  "author": "chee <chee@snake.dog> (https://snake.dog/)",
+  "author": "chee <yay@chee.party> (https://chee.party/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/chee/detect-eslint-config/issues"
